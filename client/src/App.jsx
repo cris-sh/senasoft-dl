@@ -11,6 +11,7 @@ import GuestLayout from "./shared/layouts/GuestLayout";
 import Login from "./modules/auth/pages/Login";
 import AppLayout from "./shared/layouts/AppLayout";
 import Home from "./shared/pages/Home";
+import Register from "./modules/auth/pages/Register";
 
 function App() {
     return (
@@ -27,7 +28,7 @@ function App() {
                             {/* Rutas de autenticacion */}
                             <Route element={<GuestLayout />}>
                                 <Route element={<Login />} path="/login" />
-                                {/* <Route element={<Register />} path="/register" /> */}
+                                <Route element={<Register />} path="/register" />
                             </Route>
                         </Route>
 

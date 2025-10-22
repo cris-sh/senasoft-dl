@@ -1,5 +1,5 @@
-const { Seat } = require('../models');
-const { seatCreate, seatUpdate } = require('../utils/validators');
+const { Seat } = require("../models");
+const { seatCreate, seatUpdate } = require("../utils/validators");
 
 exports.list = async (req, res, next) => {
   try {
@@ -13,8 +13,8 @@ exports.list = async (req, res, next) => {
 exports.get = async (req, res, next) => {
   try {
     const row = await Seat.findByPk(req.params.id);
-    if (!row) return res.status(404).json({ error: 'Seat not found' });
-    res.json({ data: row });
+    if (!row) return res.status(404).json({ error: "Seat not found" });
+    res.json({ message: "ok", data: { data: row }, status: 200 });
   } catch (err) {
     next(err);
   }
@@ -25,7 +25,7 @@ exports.create = async (req, res, next) => {
     const { error, value } = seatCreate.validate(req.body);
     if (error) return res.status(400).json({ error: error.message });
     const row = await Seat.create(value);
-    res.status(201).json({ data: row });
+    res.status(201).json({ message: "ok", data: { data: row }, status: 201 });
   } catch (err) {
     next(err);
   }
@@ -36,9 +36,9 @@ exports.update = async (req, res, next) => {
     const { error, value } = seatUpdate.validate(req.body);
     if (error) return res.status(400).json({ error: error.message });
     const row = await Seat.findByPk(req.params.id);
-    if (!row) return res.status(404).json({ error: 'Seat not found' });
+    if (!row) return res.status(404).json({ error: "Seat not found" });
     await row.update(value);
-    res.json({ data: row });
+    res.json({ message: "ok", data: { data: row }, status: 200 });
   } catch (err) {
     next(err);
   }
@@ -47,7 +47,7 @@ exports.update = async (req, res, next) => {
 exports.remove = async (req, res, next) => {
   try {
     const row = await Seat.findByPk(req.params.id);
-    if (!row) return res.status(404).json({ error: 'Seat not found' });
+    if (!row) return res.status(404).json({ error: "Seat not found" });
     await row.destroy();
     res.status(204).end();
   } catch (err) {

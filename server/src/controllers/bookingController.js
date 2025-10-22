@@ -1,10 +1,10 @@
-const { Booking } = require('../models');
-const { bookingCreate } = require('../utils/validators');
+const { Booking } = require("../models");
+const { bookingCreate } = require("../utils/validators");
 
 exports.list = async (req, res, next) => {
   try {
     const rows = await Booking.findAll();
-    res.json({ data: rows });
+    res.json({ message: "ok", data: { data: rows }, status: 200 });
   } catch (err) {
     next(err);
   }
@@ -13,8 +13,8 @@ exports.list = async (req, res, next) => {
 exports.get = async (req, res, next) => {
   try {
     const row = await Booking.findByPk(req.params.id);
-    if (!row) return res.status(404).json({ error: 'Booking not found' });
-    res.json({ data: row });
+    if (!row) return res.status(404).json({ error: "Booking not found" });
+    res.json({ message: "ok", data: { data: row }, status: 200 });
   } catch (err) {
     next(err);
   }
@@ -25,7 +25,7 @@ exports.create = async (req, res, next) => {
     const { error, value } = bookingCreate.validate(req.body);
     if (error) return res.status(400).json({ error: error.message });
     const row = await Booking.create(value);
-    res.status(201).json({ data: row });
+    res.status(201).json({ message: "ok", data: { data: row }, status: 201 });
   } catch (err) {
     next(err);
   }
@@ -34,7 +34,7 @@ exports.create = async (req, res, next) => {
 exports.remove = async (req, res, next) => {
   try {
     const row = await Booking.findByPk(req.params.id);
-    if (!row) return res.status(404).json({ error: 'Booking not found' });
+    if (!row) return res.status(404).json({ error: "Booking not found" });
     await row.destroy();
     res.status(204).end();
   } catch (err) {

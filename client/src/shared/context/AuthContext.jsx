@@ -46,9 +46,10 @@ export default function AuthProvider({ children }) {
     };
 
     const value = {
+        token,
         session,
         sessionState,
-        reload: () => reloadingSession,
+        reload: (reset = false) => reloadingSession(reset),
         login,
         logout,
     };

@@ -3,8 +3,9 @@ const router = express.Router();
 const controller = require('../controllers/bookingController');
 const { protect } = require('../middleware/authJwt');
 
-router.get('/', controller.list);
-router.get('/:id', controller.get);
+// List bookings - if user is authenticated return only their bookings
+router.get('/', protect, controller.list);
+router.get('/:id', protect, controller.get);
 router.post('/', protect, controller.create);
 router.delete('/:id', protect, controller.remove);
 

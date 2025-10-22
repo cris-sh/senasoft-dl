@@ -4,7 +4,14 @@ const { bookSeat } = require('../services/bookingService');
 
 exports.list = async (req, res, next) => {
   try {
-    const rows = await Booking.findAll();
+    const user = req.user;
+    if (!user) return res.status(401).json({ error: 'Authentication required' });
+
+    // Usuxbook links users to bookings
+    const { Usuxbook, Booking } = require('../models');
+    const links = await Usuxbook.findAll({ where: { user_id: user.id } });
+    const bookIds = links.map(l => l.book_id);
+    const rows = bookIds.length ? await Booking.findAll({ where: { id: bookIds } }) : [];
     res.json({ message: "ok", data: { data: rows }, status: 200 });
   } catch (err) {
     next(err);

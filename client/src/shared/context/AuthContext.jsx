@@ -1,6 +1,10 @@
 import React from 'react'
 
-export default function AppLayout() {
+const AuthContext =
+
+export default function AuthProvider() {
+  
+
   return (
     <div>
       

@@ -1,7 +1,7 @@
-@import "tailwindcss";
-@plugin "daisyui" {
-  themes: light, dark --default;
-}
+@import 'tailwindcss';
+@plugin 'daisyui' {
+  themes: light, dark --default
+};
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;

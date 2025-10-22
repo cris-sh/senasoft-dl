@@ -10,16 +10,12 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target));
-        console.log("🔐 Login: Attempting login with", data);
         const response = await fetchApiData("post", "auth/login", data);
-        console.log("🔐 Login: Response received", response);
         if (response?.message === "ok") {
-            console.log("✅ Login: Success, token:", response.data?.token);
             login(response.data.token);
             toast.success("Inicio de sesión exitoso");
-            navigate("/my-flights");
+            navigate("/");
         } else {
-            console.log("❌ Login: Failed", response);
             toast.error(response?.message || "Error en el inicio de sesión");
         }
     };

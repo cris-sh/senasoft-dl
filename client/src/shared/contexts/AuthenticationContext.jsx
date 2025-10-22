@@ -15,9 +15,9 @@ export default function AuthProvider({ children }) {
         reload: reloadingSession,
     } = useGetData("auth/me");
 
-    useEffect(() => {
+    /* useEffect(() => {
         console.log("🔐 AuthContext: Session data changed", session);
-    }, []);
+    }, []); */
 
     useEffect(() => {
         const storedToken = localStorage.getItem("auth_token");
@@ -47,7 +47,9 @@ export default function AuthProvider({ children }) {
     };
 
     const logout = () => {
-        localStorage.removeItem("auth_token");
+        localStorage.clear();
+        window.location.reload();
+        reloadingSession();
         setToken(null);
         setSessionState("unauthenticated");
     };

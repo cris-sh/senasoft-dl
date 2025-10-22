@@ -1,8 +1,11 @@
-import React from "react";
-import { Plane, MapPin, Tag, PlaneTakeoff, LogIn, HelpCircle } from "lucide-react";
+import { Plane, MapPin, Tag, PlaneTakeoff, LogIn, HelpCircle, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../hooks/useAuth";
+
 export default function Navbar() {
+    const { sessionState, logout } = useAuth();
+
     const navigate = useNavigate();
 
     return (
@@ -40,14 +43,25 @@ export default function Navbar() {
                 </button>
             </div>
             <div className="flex-1/5 flex justify-end space-x-2 mx-4">
-                <button
-                    onClick={() => navigate("/login")}
-                    className="btn btn-ghost btn-sm text-white hover:bg-secondary hover:text-primary transition-colors duration-200 flex items-center space-x-1"
-                    aria-label="Iniciar sesión"
-                >
-                    <LogIn className="w-4 h-4" />
-                    <span>Login</span>
-                </button>
+                {sessionState !== "authenticated" ? (
+                    <button
+                        onClick={() => navigate("/login")}
+                        className="btn btn-ghost btn-sm text-white hover:bg-secondary hover:text-primary transition-colors duration-200 flex items-center space-x-1"
+                        aria-label="Iniciar sesión"
+                    >
+                        <LogIn className="w-4 h-4" />
+                        <span>Login</span>
+                    </button>
+                ) : (
+                    <button
+                        onClick={logout}
+                        className="btn btn-ghost btn-sm text-white hover:bg-red-500 transition-colors duration-200 flex items-center space-x-1"
+                        aria-label="Iniciar sesión"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        <span>Logout</span>
+                    </button>
+                )}
                 <button
                     onClick={() => navigate("/ayuda")}
                     className="btn btn-ghost btn-sm text-white hover:bg-secondary hover:text-primary transition-colors duration-200 flex items-center space-x-1"

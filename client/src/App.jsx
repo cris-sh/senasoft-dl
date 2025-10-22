@@ -20,7 +20,9 @@ function App() {
                     <Routes>
                         <Route element={<ProtectedRoute mustBeAuth={false} />}>
                             {/* Entrypoint */}
-                            <Route index element={<Home />} path="/" />
+                            <Route element={<AppLayout/>}>
+                                <Route index element={<Home />} path="/" />
+                            </Route>
 
                             {/* Rutas de autenticacion */}
                             <Route element={<GuestLayout />}>

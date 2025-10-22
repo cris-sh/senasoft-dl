@@ -27,16 +27,18 @@ export default function ThemeProvider({ children }) {
         const oldTheme = theme;
 
         setTheme(newTheme);
-        setLoading(false);
+        setLoading(true);
 
         try {
             if (session?.id) {
-                await fetchApiData("PUT", `preferences/${session?.id}`, { theme });
+                await fetchApiData("PUT", `preferences/${session?.id}`, { theme: newTheme });
             }
             reload();
         } catch (error) {
             setTheme(oldTheme);
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 

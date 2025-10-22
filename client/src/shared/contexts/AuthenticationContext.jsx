@@ -37,7 +37,7 @@ export default function AuthProvider({ children }) {
 
     const login = (newToken) => {
         setToken(newToken);
-        localStorage.setItem("auth_token", token);
+        localStorage.setItem("auth_token", newToken);
         setSessionState("authenticated");
     };
 

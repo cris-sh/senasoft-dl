@@ -1,0 +1,16 @@
+{
+  "name": "airfly",
+  "private": false,
+  "description": "This is a project for Senasoft, open source development.  It consists of a airline to managment of tickets, flights, passengers and payments simulation.",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:backend": "npm run dev --workspace server",
+    "dev:frontend": "npm run dev --workspace client"
+  },
+  "keywords": [],
+  "author": "little-Johny and cris-sh"
+}

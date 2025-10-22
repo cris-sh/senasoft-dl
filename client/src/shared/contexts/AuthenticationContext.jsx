@@ -16,6 +16,10 @@ export default function AuthProvider({ children }) {
     } = useGetData("auth/me");
 
     useEffect(() => {
+        console.log("🔐 AuthContext: Session data changed", session);
+    }, []);
+
+    useEffect(() => {
         const storedToken = localStorage.getItem("auth_token");
 
         if (!storedToken) {
@@ -37,6 +41,7 @@ export default function AuthProvider({ children }) {
 
     const login = (newToken) => {
         setToken(newToken);
+        // console.log("session" ,Object.entries(session));
         localStorage.setItem("auth_token", newToken);
         setSessionState("authenticated");
     };

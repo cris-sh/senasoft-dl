@@ -1,4 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
+
+// hooks
 import { useGetData } from "../hooks/useApi";
 
 const AuthContext = createContext();

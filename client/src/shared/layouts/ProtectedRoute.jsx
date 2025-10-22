@@ -1,11 +1,16 @@
 import { Navigate, Outlet } from "react-router-dom";
+
+// hooks
 import { useAuth } from "../hooks/useAuth";
+
+// components
+import LoadingComponent from "../components/LoadingComponent";
 
 export default function ProtectedRoute({ mustBeAuth = false }) {
     const { session, sessionState } = useAuth();
 
     if (sessionState === "loading") {
-        // return <LoadingComponent/>
+        return <LoadingComponent size={100} />;
     }
 
     if (

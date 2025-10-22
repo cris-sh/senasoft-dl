@@ -1,4 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
+
+// hooks
 import { useGetData } from "../hooks/useApi";
 
 const AuthContext = createContext();
@@ -35,7 +37,7 @@ export default function AuthProvider({ children }) {
 
     const login = (newToken) => {
         setToken(newToken);
-        localStorage.setItem("auth_token", token);
+        localStorage.setItem("auth_token", newToken);
         setSessionState("authenticated");
     };
 
@@ -46,9 +48,10 @@ export default function AuthProvider({ children }) {
     };
 
     const value = {
+        token,
         session,
         sessionState,
-        reload: () => reloadingSession,
+        reload: (reset = false) => reloadingSession(reset),
         login,
         logout,
     };

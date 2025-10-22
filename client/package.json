@@ -12,6 +12,10 @@
   "dependencies": {
 <<<<<<< Updated upstream
     "react": "^19.1.1",
+    "lucide-react": "^0.546.0",
+    "react-router-dom": "^7.9.4",
+    "react-toastify": "^11.0.5",
+    "tailwindcss": "^4.1.15",
     "react-dom": "^19.1.1"
 =======
     "lucide-react": "^0.546.0",

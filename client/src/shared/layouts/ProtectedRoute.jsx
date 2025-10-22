@@ -1,10 +1,24 @@
-import React from 'react'
+import { Navigate, Outlet } from "react-router-dom";
 
-export default function ProtectedRoute() {
-  const { data:  session, reload: reloadSession, loading: loadingSession } = useAuth();
-  return (
-    <div>
-      
-    </div>
-  )
+// hooks
+import { useAuth } from "../hooks/useAuth";
+
+// components
+import LoadingComponent from "../components/LoadingComponent";
+
+export default function ProtectedRoute({ mustBeAuth = false }) {
+    const { session, sessionState } = useAuth();
+
+    if (sessionState === "loading") {
+        return <LoadingComponent size={100} />;
+    }
+
+    if (
+        (mustBeAuth && sessionState !== "authenticated") ||
+        (mustBeAuth && !session && sessionState === "unauthenticated")
+    ) {
+        return <Navigate to="/" replace />;
+    }
+
+    return <Outlet />;
 }

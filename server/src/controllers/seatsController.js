@@ -10,6 +10,19 @@ exports.list = async (req, res, next) => {
   }
 };
 
+exports.getByPlane = async (req, res, next) => {
+  try {
+    const { plane_id } = req.params;
+    const seats = await Seat.findAll({
+      where: { plane_id },
+      order: [['seat_number', 'ASC']]
+    });
+    res.json({ message: "ok", data: { data: seats }, status: 200 });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.get = async (req, res, next) => {
   try {
     const row = await Seat.findByPk(req.params.id);

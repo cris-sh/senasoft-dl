@@ -19,7 +19,7 @@ const ticketRoutes = require('../routes/ticket');
 const invoiceRoutes = require('../routes/invoice');
 const preferencesRoutes = require('../routes/preferences');
 const mailRoutes = require('../routes/mail');
-const seedRoutes = require('../routes/seed');
+
 const app = express();
 
 app.use(helmet());
@@ -45,7 +45,6 @@ app.use('/api/ticket', ticketRoutes);
 app.use('/api/invoice', invoiceRoutes);
 app.use('/api/preferences', preferencesRoutes);
 app.use('/api/mail', mailRoutes);
-app.use('/api/seed', seedRoutes);
 
 app.get('/api/health', async (req, res) => {
   const sequelize = require('../config/database');

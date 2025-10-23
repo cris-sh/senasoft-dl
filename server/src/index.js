@@ -1,7 +1,7 @@
 require("dotenv").config();
 const app = require("./config/app");
 const { logger } = require("./utils/logger");
-const { seedDatabase } = require("./utils/seed");
+
 
 const sequelize = require("./config/database");
 

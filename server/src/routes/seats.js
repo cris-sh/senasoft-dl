@@ -4,6 +4,7 @@ const controller = require('../controllers/seatsController');
 const { protect } = require('../middleware/authJwt');
 
 router.get('/', controller.list);
+router.get('/plane/:plane_id', controller.getByPlane);
 router.get('/:id', controller.get);
 router.post('/', protect, controller.create);
 router.put('/:id', protect, controller.update);

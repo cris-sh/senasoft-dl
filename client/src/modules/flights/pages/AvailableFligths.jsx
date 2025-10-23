@@ -1,9 +1,10 @@
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useGetData } from '../../../shared/hooks/useApi'
 
 export default function AvailableFligths() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   // Extract filters from URL params
   const filters = {
@@ -87,7 +88,15 @@ export default function AvailableFligths() {
                       ${flight.price?.toLocaleString()}
                     </p>
                     <p className="text-sm text-gray-600">por persona</p>
-                    <button className="btn btn-primary btn-sm mt-2">
+                    <button
+                      className="btn btn-primary btn-sm mt-2"
+                      onClick={() => navigate('/passengers/add', {
+                        state: {
+                          flight,
+                          passengers: parseInt(filters.passengers) || 1
+                        }
+                      })}
+                    >
                       Reservar
                     </button>
                   </div>

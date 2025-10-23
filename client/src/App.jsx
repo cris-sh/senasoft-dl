@@ -14,6 +14,7 @@ import Home from "./shared/pages/Home";
 import Register from "./modules/auth/pages/Register";
 import AvailableFligths from "./modules/flights/pages/AvailableFligths";
 import NotFound from "./shared/pages/NotFound";
+import AddPassengers from "./modules/passengers/pages/AddPassengers";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                             <Route element={<AppLayout/>}>
                                 <Route index element={<Home />} path="/" />
                                 <Route element={<AvailableFligths />} path="/flights/available" />
+                                <Route element={<AddPassengers />} path="/passengers/add" />
                             </Route>
 
                             {/* Rutas de autenticacion */}

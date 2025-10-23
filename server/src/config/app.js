@@ -19,6 +19,7 @@ const ticketRoutes = require('../routes/ticket');
 const invoiceRoutes = require('../routes/invoice');
 const preferencesRoutes = require('../routes/preferences');
 const mailRoutes = require('../routes/mail');
+
 const app = express();
 
 app.use(helmet());

@@ -6,6 +6,8 @@ import { fetchApiData } from "../hooks/useApi";
 
 const ThemeContext = createContext();
 
+export { ThemeContext };
+
 export default function ThemeProvider({ children }) {
     const { session, reload } = useAuth();
 
@@ -40,9 +42,9 @@ export default function ThemeProvider({ children }) {
         setLoading(true);
 
         try {
-            if (session?.id) {
-                console.log("🎨 ThemeContext: Updating theme preference for user", session.id);
-                const response = await fetchApiData("PUT", `preferences/${session.id}`, { theme: newTheme });
+            if (session?.user?.id) {
+                // console.log("🎨 ThemeContext: Updating theme preference for user", session.id);
+                const response = await fetchApiData("PUT", `preferences/${session.user.id}`, { theme: newTheme });
                 console.log("🎨 ThemeContext: Theme update response", response);
             }
             console.log("🎨 ThemeContext: Reloading session");

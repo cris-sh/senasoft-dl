@@ -2,6 +2,7 @@ require("dotenv").config();
 const app = require("./config/app");
 const { logger } = require("./utils/logger");
 
+
 const sequelize = require("./config/database");
 
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,13 @@ async function start() {
         logger.info("DB_SYNC=true -> running sequelize.sync({ alter: true })");
         await sequelize.sync({ alter: true });
         logger.info("Sequelize sync complete");
+
+        // Seed database if DB_SEED is true
+        if (process.env.DB_SEED === "true") {
+          logger.info("DB_SEED=true -> seeding database");
+          await seedDatabase();
+          logger.info("Database seeding complete");
+        }
       }
     }
 

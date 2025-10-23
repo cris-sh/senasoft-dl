@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { fetchApiData, useGetData } from '../../../shared/hooks/useApi'
+import { useGetData } from '../../../shared/hooks/useApi'
 
 export default function AddPassengers() {
   const location = useLocation()
@@ -64,48 +64,27 @@ export default function AddPassengers() {
     }, 0)
   }
 
-  const response = fetchApiData();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Preparar datos para el backend
-    const bookingData = {
-      flight_id: flight.id,
-      passengers: passengers.map(passenger => ({
-        names: passenger.names,
-        lastname: passenger.lastname,
-        doc_type: passenger.doc_type,
-        doc_num: passenger.doc_num,
-        birthday: passenger.birthday,
-        gender: passenger.gender,
-        phone: passenger.phone,
-        email: passenger.email,
-        is_child: passenger.is_child,
-        seat_id: passenger.seat_id
-      }))
-    }
+    // Simular creación de reserva sin llamada a API
+    // Calcular precio total incluyendo extras de asientos
+    const totalPrice = calculateTotalPrice()
 
-    try {
-      const response = await fetchApiData('bookings')
+    // Generar un ID de reserva simulado
+    const simulatedBookingId = `SIM-${Date.now()}-${Math.floor(Math.random() * 10000)}`
 
-      if (response) {
-        // Calcular precio total incluyendo extras de asientos
-        const totalPrice = calculateTotalPrice()
-
-        navigate('/booking/confirmation', {
-          state: {
-            flight,
-            passengers,
-            totalPrice,
-            bookingId: response.data.booking.id
-          }
-        })
+    // Navegar directamente a la página de pago
+    navigate('/booking/payment', {
+      state: {
+        flight,
+        passengers,
+        totalPrice,
+        bookingId: simulatedBookingId
       }
-    } catch (error) {
-      console.error('Error creating booking:', error)
-      alert('Error al crear la reserva. Por favor, inténtelo nuevamente.')
-    }
+    })
   }
 
   if (!flight) {

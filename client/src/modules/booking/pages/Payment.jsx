@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { fetchApiData } from '../../../shared/hooks/useApi'
 
 export default function Payment() {
   const location = useLocation()
@@ -8,6 +7,7 @@ export default function Payment() {
   const { flight, passengers, totalPrice, bookingId } = location.state || {}
   const [paymentMethod, setPaymentMethod] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
+  const [termsAccepted, setTermsAccepted] = useState(false)
 
   if (!flight || !passengers || !totalPrice) {
     return (
@@ -31,36 +31,31 @@ export default function Payment() {
       return
     }
 
+    if (!termsAccepted) {
+      alert('Por favor acepta los términos y condiciones antes de proceder con el pago')
+      return
+    }
+
     setIsProcessing(true)
 
     try {
-      // Preparar datos de pago
-      const paymentData = {
-        booking_id: bookingId,
-        payment_data: {
-          pay_method: paymentMethod,
-          name: passengers[0]?.names + ' ' + passengers[0]?.lastname,
-          doc_type: passengers[0]?.doc_type,
-          num_doc: passengers[0]?.doc_num,
-          email: passengers[0]?.email,
-          phone: passengers[0]?.phone
+      // Simular procesamiento de pago sin llamada a API
+      await new Promise(resolve => setTimeout(resolve, 2000)) // Simular delay de 2 segundos
+
+      // Generar ID de factura simulado
+      const simulatedInvoiceId = `INV-${Date.now()}-${Math.floor(Math.random() * 10000)}`
+
+      // Navegar a la página de factura
+      navigate('/booking/invoice', {
+        state: {
+          flight,
+          passengers,
+          totalPrice,
+          paymentMethod,
+          bookingId,
+          invoiceId: simulatedInvoiceId
         }
-      }
-
-      const response = await postData('bookings/confirm', paymentData)
-
-      if (response) {
-        navigate('/booking/invoice', {
-          state: {
-            flight,
-            passengers,
-            totalPrice,
-            paymentMethod,
-            bookingId: response.data.booking.id,
-            invoiceId: response.data.invoice.id
-          }
-        })
-      }
+      })
     } catch (error) {
       console.error('Error processing payment:', error)
       alert('Error al procesar el pago. Por favor, inténtelo nuevamente.')
@@ -170,6 +165,34 @@ export default function Payment() {
           </div>
         </div>
 
+        {/* Terms and Conditions */}
+        <div className="card bg-base-100 shadow-lg mb-6">
+          <div className="card-body">
+            <h2 className="card-title text-xl mb-4">Términos y Condiciones</h2>
+
+            <div className="form-control">
+              <label className="label cursor-pointer">
+                <span className="label-text flex items-center">
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-primary mr-3"
+                    checked={termsAccepted}
+                    onChange={(e) => setTermsAccepted(e.target.checked)}
+                  />
+                  Acepto los términos y condiciones del servicio
+                </span>
+              </label>
+            </div>
+
+            <div className="mt-4 text-sm text-gray-600">
+              <p>
+                Al aceptar, confirmo que he leído y acepto los términos y condiciones de la aerolínea,
+                incluyendo las políticas de cancelación, cambios y reembolsos.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Action Buttons */}
         <div className="flex justify-center gap-4">
           <button
@@ -184,7 +207,7 @@ export default function Payment() {
           <button
             onClick={handlePayment}
             className={`btn btn-primary btn-lg ${isProcessing ? 'loading' : ''}`}
-            disabled={isProcessing}
+            disabled={isProcessing || !termsAccepted}
           >
             {isProcessing ? 'Procesando...' : `Pagar $${totalPrice.toLocaleString()}`}
           </button>

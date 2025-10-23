@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Airport = sequelize.define(
-    "Airports",
+    "Airport",
     {
       id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
       name: { type: DataTypes.STRING, allowNull: false },
-      icao: { type: DataTypes.STRING, allowNull: false, unique: true },
-      city_id: { type: DataTypes.BIGINT, allowNull: false },
+      city: { type: DataTypes.STRING, allowNull: false },
+      code: { type: DataTypes.STRING, allowNull: false, unique: true },
     },
     {
       tableName: "airports",
@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Airport.associate = (models) => {
-    // associations can be added here
+    if (models.Flight) {
+      Airport.hasMany(models.Flight, { foreignKey: 'departure_airport' });
+      Airport.hasMany(models.Flight, { foreignKey: 'arrival_airport' });
+    }
   };
 
   return Airport;

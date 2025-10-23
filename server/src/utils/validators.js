@@ -81,6 +81,37 @@ const passengerCreate = Joi.object({
   user_id: Joi.number().integer().required(),
 });
 
+const bookingCreateNew = Joi.object({
+  flight_id: Joi.number().integer().required(),
+  passengers: Joi.array().items(
+    Joi.object({
+      names: Joi.string().required(),
+      lastname: Joi.string().required(),
+      snd_lastname: Joi.string().required(),
+      birthday: Joi.date().iso().required(),
+      gender: Joi.string().required(),
+      doc_type: Joi.string().required(),
+      doc_num: Joi.alternatives().try(Joi.string(), Joi.number()).required(),
+      is_child: Joi.boolean().optional(),
+      phone: Joi.string().required(),
+      email: Joi.string().email().required(),
+      seat_id: Joi.number().integer().required(),
+    })
+  ).min(1).max(5).required(),
+});
+
+const paymentConfirm = Joi.object({
+  booking_id: Joi.number().integer().required(),
+  payment_data: Joi.object({
+    name: Joi.string().required(),
+    doc_type: Joi.string().required(),
+    num_doc: Joi.string().required(),
+    email: Joi.string().email().required(),
+    phone: Joi.string().required(),
+    pay_method: Joi.string().valid('credit_card', 'debit_card', 'bank_transfer', 'cash').required(),
+  }).required(),
+});
+
 const passengerUpdate = Joi.object({
   names: Joi.string(),
   lastname: Joi.string(),
@@ -137,4 +168,6 @@ module.exports = Object.assign(module.exports, {
   ticketCreate,
   invoiceCreate,
   preferencesUpdate,
+  bookingCreateNew,
+  paymentConfirm,
 });

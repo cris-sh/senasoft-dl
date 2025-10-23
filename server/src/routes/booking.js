@@ -7,6 +7,7 @@ const { protect } = require('../middleware/authJwt');
 router.get('/', protect, controller.list);
 router.get('/:id', protect, controller.get);
 router.post('/', protect, controller.create);
+router.post('/confirm', protect, controller.confirm);
 router.delete('/:id', protect, controller.remove);
 
 module.exports = router;

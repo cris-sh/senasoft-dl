@@ -100,7 +100,6 @@ exports.register = async (req, res, next) => {
       id: Number(pref.id),
       user_id: Number(pref.user_id),
       theme: pref.theme,
-      updated_at: formatDate(pref.updated_at),
     };
 
     res.status(201).json({
@@ -146,7 +145,6 @@ exports.login = async (req, res, next) => {
           id: Number(pref.id),
           user_id: Number(pref.user_id),
           theme: pref.theme,
-          updated_at: formatDate(pref.updated_at),
         }
       : null;
 
@@ -187,7 +185,6 @@ exports.me = async (req, res, next) => {
           id: Number(pref.id),
           user_id: Number(pref.user_id),
           theme: pref.theme,
-          updated_at: formatDate(pref.updated_at),
         }
       : null;
 

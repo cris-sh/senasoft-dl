@@ -12,6 +12,8 @@ import Login from "./modules/auth/pages/Login";
 import AppLayout from "./shared/layouts/AppLayout";
 import Home from "./shared/pages/Home";
 import Register from "./modules/auth/pages/Register";
+import AvailableFligths from "./modules/flights/pages/AvailableFligths";
+import NotFound from "./shared/pages/NotFound";
 
 function App() {
     return (
@@ -23,6 +25,7 @@ function App() {
                             {/* Entrypoint */}
                             <Route element={<AppLayout/>}>
                                 <Route index element={<Home />} path="/" />
+                                <Route element={<AvailableFligths />} path="/flights/available" />
                             </Route>
 
                             {/* Rutas de autenticacion */}
@@ -33,8 +36,13 @@ function App() {
                         </Route>
 
                         <Route element={<ProtectedRoute mustBeAuth />}>
-                            <Route element={<AppLayout />}>{/* RUTAS PRINCIPALES */}</Route>
+                            <Route element={<AppLayout />}>
+
+                            </Route>
                         </Route>
+
+                        {/* Ruta 404 - debe ir al final */}
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </ThemeProvider>
             </AuthProvider>
@@ -44,3 +52,4 @@ function App() {
 }
 
 export default App;
+

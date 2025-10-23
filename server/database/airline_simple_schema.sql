@@ -9,7 +9,7 @@ CREATE TABLE users (
     name VARCHAR NOT NULL,
     lastname VARCHAR NOT NULL,
     snd_lastname VARCHAR,
-    email VARCHAR NOT NULL UNIQUE,
+    email VARCHAR NOT NULL UNIQUE, 
     password VARCHAR NOT NULL,
     birthday DATE NOT NULL,
     gender VARCHAR NOT NULL,
@@ -161,8 +161,180 @@ VALUES ('Airbus A320', 180, 'ABC123');
 -- Airports
 INSERT INTO airports (name, city, code)
 VALUES ('El Dorado', 'Bogotá', 'BOG'),
-       ('José María Córdova', 'Medellín', 'MDE');
+       ('José María Córdova', 'Medellín', 'MDE'),
+       ('Matecaña', 'Pereira', 'PEI'),
+       ('Ernesto Cortissoz', 'Barranquilla', 'BAQ'),
+       ('Rafael Núñez', 'Cartagena', 'CTG'),
+       ('Alfonso Bonilla Aragón', 'Cali', 'CLO');
 
--- Flight
+-- Planes
+INSERT INTO planes (model, capacity, plate)
+VALUES ('Airbus A320', 180, 'ABC123'),
+       ('Boeing 737-800', 189, 'DEF456'),
+       ('Airbus A319', 156, 'GHI789'),
+       ('Boeing 737-700', 149, 'JKL012');
+
+-- Seats for Plane 1 (Airbus A320 - 180 seats)
+INSERT INTO seats (plane_id, seat_number, class, add_price)
+SELECT 1, 'A' || i::text, 'economy', 0
+FROM generate_series(1, 30) i
+UNION ALL
+SELECT 1, 'B' || i::text, 'economy', 0
+FROM generate_series(1, 30) i
+UNION ALL
+SELECT 1, 'C' || i::text, 'economy', 0
+FROM generate_series(1, 30) i
+UNION ALL
+SELECT 1, 'D' || i::text, 'economy', 0
+FROM generate_series(1, 30) i
+UNION ALL
+SELECT 1, 'E' || i::text, 'economy', 0
+FROM generate_series(1, 30) i
+UNION ALL
+SELECT 1, 'F' || i::text, 'economy', 0
+FROM generate_series(1, 30) i;
+
+-- Seats for Plane 2 (Boeing 737-800 - 189 seats)
+INSERT INTO seats (plane_id, seat_number, class, add_price)
+SELECT 2, 'A' || i::text, 'economy', 0
+FROM generate_series(1, 31) i
+UNION ALL
+SELECT 2, 'B' || i::text, 'economy', 0
+FROM generate_series(1, 31) i
+UNION ALL
+SELECT 2, 'C' || i::text, 'economy', 0
+FROM generate_series(1, 31) i
+UNION ALL
+SELECT 2, 'D' || i::text, 'economy', 0
+FROM generate_series(1, 31) i
+UNION ALL
+SELECT 2, 'E' || i::text, 'economy', 0
+FROM generate_series(1, 31) i
+UNION ALL
+SELECT 2, 'F' || i::text, 'economy', 0
+FROM generate_series(1, 31) i;
+
+-- Seats for Plane 3 (Airbus A319 - 156 seats)
+INSERT INTO seats (plane_id, seat_number, class, add_price)
+SELECT 3, 'A' || i::text, 'economy', 0
+FROM generate_series(1, 26) i
+UNION ALL
+SELECT 3, 'B' || i::text, 'economy', 0
+FROM generate_series(1, 26) i
+UNION ALL
+SELECT 3, 'C' || i::text, 'economy', 0
+FROM generate_series(1, 26) i
+UNION ALL
+SELECT 3, 'D' || i::text, 'economy', 0
+FROM generate_series(1, 26) i
+UNION ALL
+SELECT 3, 'E' || i::text, 'economy', 0
+FROM generate_series(1, 26) i
+UNION ALL
+SELECT 3, 'F' || i::text, 'economy', 0
+FROM generate_series(1, 26) i;
+
+-- Seats for Plane 4 (Boeing 737-700 - 149 seats)
+INSERT INTO seats (plane_id, seat_number, class, add_price)
+SELECT 4, 'A' || i::text, 'economy', 0
+FROM generate_series(1, 24) i
+UNION ALL
+SELECT 4, 'B' || i::text, 'economy', 0
+FROM generate_series(1, 24) i
+UNION ALL
+SELECT 4, 'C' || i::text, 'economy', 0
+FROM generate_series(1, 24) i
+UNION ALL
+SELECT 4, 'D' || i::text, 'economy', 0
+FROM generate_series(1, 24) i
+UNION ALL
+SELECT 4, 'E' || i::text, 'economy', 0
+FROM generate_series(1, 24) i
+UNION ALL
+SELECT 4, 'F' || i::text, 'economy', 0
+FROM generate_series(1, 24) i;
+
+-- Flights for today (2025-10-23) and tomorrow (2025-10-24)
+-- Bogotá to Medellín
 INSERT INTO flights (plane_id, departure_airport, arrival_airport, dep_time, arr_time, type, price, date)
-VALUES (1, 1, 2, '2025-11-01 08:00', '2025-11-01 09:00', 'ida', 200000, '2025-11-01');
+VALUES (1, 1, 2, '2025-10-23 06:00:00', '2025-10-23 07:00:00', 'ida', 150000, '2025-10-23'),
+       (1, 1, 2, '2025-10-23 08:00:00', '2025-10-23 09:00:00', 'ida', 150000, '2025-10-23'),
+       (1, 1, 2, '2025-10-23 10:00:00', '2025-10-23 11:00:00', 'ida', 150000, '2025-10-23'),
+       (1, 1, 2, '2025-10-23 12:00:00', '2025-10-23 13:00:00', 'ida', 150000, '2025-10-23'),
+       (1, 1, 2, '2025-10-23 14:00:00', '2025-10-23 15:00:00', 'ida', 150000, '2025-10-23'),
+       (1, 1, 2, '2025-10-23 16:00:00', '2025-10-23 17:00:00', 'ida', 150000, '2025-10-23'),
+       (1, 1, 2, '2025-10-23 18:00:00', '2025-10-23 19:00:00', 'ida', 150000, '2025-10-23'),
+       (1, 1, 2, '2025-10-23 20:00:00', '2025-10-23 21:00:00', 'ida', 150000, '2025-10-23'),
+
+       (2, 1, 2, '2025-10-24 06:00:00', '2025-10-24 07:00:00', 'ida', 160000, '2025-10-24'),
+       (2, 1, 2, '2025-10-24 08:00:00', '2025-10-24 09:00:00', 'ida', 160000, '2025-10-24'),
+       (2, 1, 2, '2025-10-24 10:00:00', '2025-10-24 11:00:00', 'ida', 160000, '2025-10-24'),
+       (2, 1, 2, '2025-10-24 12:00:00', '2025-10-24 13:00:00', 'ida', 160000, '2025-10-24'),
+       (2, 1, 2, '2025-10-24 14:00:00', '2025-10-24 15:00:00', 'ida', 160000, '2025-10-24'),
+       (2, 1, 2, '2025-10-24 16:00:00', '2025-10-24 17:00:00', 'ida', 160000, '2025-10-24'),
+       (2, 1, 2, '2025-10-24 18:00:00', '2025-10-24 19:00:00', 'ida', 160000, '2025-10-24'),
+       (2, 1, 2, '2025-10-24 20:00:00', '2025-10-24 21:00:00', 'ida', 160000, '2025-10-24');
+
+-- Medellín to Bogotá
+INSERT INTO flights (plane_id, departure_airport, arrival_airport, dep_time, arr_time, type, price, date)
+VALUES (1, 2, 1, '2025-10-23 07:30:00', '2025-10-23 08:30:00', 'ida', 150000, '2025-10-23'),
+       (1, 2, 1, '2025-10-23 09:30:00', '2025-10-23 10:30:00', 'ida', 150000, '2025-10-23'),
+       (1, 2, 1, '2025-10-23 11:30:00', '2025-10-23 12:30:00', 'ida', 150000, '2025-10-23'),
+       (1, 2, 1, '2025-10-23 13:30:00', '2025-10-23 14:30:00', 'ida', 150000, '2025-10-23'),
+       (1, 2, 1, '2025-10-23 15:30:00', '2025-10-23 16:30:00', 'ida', 150000, '2025-10-23'),
+       (1, 2, 1, '2025-10-23 17:30:00', '2025-10-23 18:30:00', 'ida', 150000, '2025-10-23'),
+       (1, 2, 1, '2025-10-23 19:30:00', '2025-10-23 20:30:00', 'ida', 150000, '2025-10-23'),
+       (1, 2, 1, '2025-10-23 21:30:00', '2025-10-23 22:30:00', 'ida', 150000, '2025-10-23'),
+
+       (2, 2, 1, '2025-10-24 07:30:00', '2025-10-24 08:30:00', 'ida', 160000, '2025-10-24'),
+       (2, 2, 1, '2025-10-24 09:30:00', '2025-10-24 10:30:00', 'ida', 160000, '2025-10-24'),
+       (2, 2, 1, '2025-10-24 11:30:00', '2025-10-24 12:30:00', 'ida', 160000, '2025-10-24'),
+       (2, 2, 1, '2025-10-24 13:30:00', '2025-10-24 14:30:00', 'ida', 160000, '2025-10-24'),
+       (2, 2, 1, '2025-10-24 15:30:00', '2025-10-24 16:30:00', 'ida', 160000, '2025-10-24'),
+       (2, 2, 1, '2025-10-24 17:30:00', '2025-10-24 18:30:00', 'ida', 160000, '2025-10-24'),
+       (2, 2, 1, '2025-10-24 19:30:00', '2025-10-24 20:30:00', 'ida', 160000, '2025-10-24'),
+       (2, 2, 1, '2025-10-24 21:30:00', '2025-10-24 22:30:00', 'ida', 160000, '2025-10-24');
+
+-- Bogotá to Pereira
+INSERT INTO flights (plane_id, departure_airport, arrival_airport, dep_time, arr_time, type, price, date)
+VALUES (3, 1, 3, '2025-10-23 07:00:00', '2025-10-23 08:15:00', 'ida', 120000, '2025-10-23'),
+       (3, 1, 3, '2025-10-23 11:00:00', '2025-10-23 12:15:00', 'ida', 120000, '2025-10-23'),
+       (3, 1, 3, '2025-10-23 15:00:00', '2025-10-23 16:15:00', 'ida', 120000, '2025-10-23'),
+       (3, 1, 3, '2025-10-23 19:00:00', '2025-10-23 20:15:00', 'ida', 120000, '2025-10-23'),
+
+       (4, 1, 3, '2025-10-24 07:00:00', '2025-10-24 08:15:00', 'ida', 130000, '2025-10-24'),
+       (4, 1, 3, '2025-10-24 11:00:00', '2025-10-24 12:15:00', 'ida', 130000, '2025-10-24'),
+       (4, 1, 3, '2025-10-24 15:00:00', '2025-10-24 16:15:00', 'ida', 130000, '2025-10-24'),
+       (4, 1, 3, '2025-10-24 19:00:00', '2025-10-24 20:15:00', 'ida', 130000, '2025-10-24');
+
+-- Pereira to Bogotá
+INSERT INTO flights (plane_id, departure_airport, arrival_airport, dep_time, arr_time, type, price, date)
+VALUES (3, 3, 1, '2025-10-23 08:45:00', '2025-10-23 10:00:00', 'ida', 120000, '2025-10-23'),
+       (3, 3, 1, '2025-10-23 12:45:00', '2025-10-23 14:00:00', 'ida', 120000, '2025-10-23'),
+       (3, 3, 1, '2025-10-23 16:45:00', '2025-10-23 18:00:00', 'ida', 120000, '2025-10-23'),
+       (3, 3, 1, '2025-10-23 20:45:00', '2025-10-23 22:00:00', 'ida', 120000, '2025-10-23'),
+
+       (4, 3, 1, '2025-10-24 08:45:00', '2025-10-24 10:00:00', 'ida', 130000, '2025-10-24'),
+       (4, 3, 1, '2025-10-24 12:45:00', '2025-10-24 14:00:00', 'ida', 130000, '2025-10-24'),
+       (4, 3, 1, '2025-10-24 16:45:00', '2025-10-24 18:00:00', 'ida', 130000, '2025-10-24'),
+       (4, 3, 1, '2025-10-24 20:45:00', '2025-10-24 22:00:00', 'ida', 130000, '2025-10-24');
+
+-- Bogotá to Barranquilla
+INSERT INTO flights (plane_id, departure_airport, arrival_airport, dep_time, arr_time, type, price, date)
+VALUES (2, 1, 4, '2025-10-23 06:30:00', '2025-10-23 08:00:00', 'ida', 180000, '2025-10-23'),
+       (2, 1, 4, '2025-10-23 12:30:00', '2025-10-23 14:00:00', 'ida', 180000, '2025-10-23'),
+       (2, 1, 4, '2025-10-23 18:30:00', '2025-10-23 20:00:00', 'ida', 180000, '2025-10-23'),
+
+       (1, 1, 4, '2025-10-24 06:30:00', '2025-10-24 08:00:00', 'ida', 190000, '2025-10-24'),
+       (1, 1, 4, '2025-10-24 12:30:00', '2025-10-24 14:00:00', 'ida', 190000, '2025-10-24'),
+       (1, 1, 4, '2025-10-24 18:30:00', '2025-10-24 20:00:00', 'ida', 190000, '2025-10-24');
+
+-- Barranquilla to Bogotá
+INSERT INTO flights (plane_id, departure_airport, arrival_airport, dep_time, arr_time, type, price, date)
+VALUES (2, 4, 1, '2025-10-23 09:00:00', '2025-10-23 10:30:00', 'ida', 180000, '2025-10-23'),
+       (2, 4, 1, '2025-10-23 15:00:00', '2025-10-23 16:30:00', 'ida', 180000, '2025-10-23'),
+       (2, 4, 1, '2025-10-23 21:00:00', '2025-10-23 22:30:00', 'ida', 180000, '2025-10-23'),
+
+       (1, 4, 1, '2025-10-24 09:00:00', '2025-10-24 10:30:00', 'ida', 190000, '2025-10-24'),
+       (1, 4, 1, '2025-10-24 15:00:00', '2025-10-24 16:30:00', 'ida', 190000, '2025-10-24'),
+       (1, 4, 1, '2025-10-24 21:00:00', '2025-10-24 22:30:00', 'ida', 190000, '2025-10-24');

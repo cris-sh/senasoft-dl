@@ -15,6 +15,9 @@ import Register from "./modules/auth/pages/Register";
 import AvailableFligths from "./modules/flights/pages/AvailableFligths";
 import NotFound from "./shared/pages/NotFound";
 import AddPassengers from "./modules/passengers/pages/AddPassengers";
+import BookingConfirmation from "./modules/booking/pages/BookingConfirmation";
+import Payment from "./modules/booking/pages/Payment";
+import Invoice from "./modules/booking/pages/Invoice";
 
 function App() {
     return (
@@ -28,6 +31,9 @@ function App() {
                                 <Route index element={<Home />} path="/" />
                                 <Route element={<AvailableFligths />} path="/flights/available" />
                                 <Route element={<AddPassengers />} path="/passengers/add" />
+                                <Route element={<BookingConfirmation />} path="/booking/confirmation" />
+                                <Route element={<Payment />} path="/booking/payment" />
+                                <Route element={<Invoice />} path="/booking/invoice" />
                             </Route>
 
                             {/* Rutas de autenticacion */}

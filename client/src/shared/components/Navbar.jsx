@@ -2,6 +2,7 @@ import { Plane, MapPin, Tag, PlaneTakeoff, LogIn, HelpCircle, LogOut } from "luc
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
+import ThemeController from "./ThemeController";
 
 export default function Navbar() {
     const { sessionState, logout } = useAuth();
@@ -53,14 +54,17 @@ export default function Navbar() {
                         <span>Login</span>
                     </button>
                 ) : (
-                    <button
-                        onClick={logout}
-                        className="btn btn-ghost btn-sm text-white hover:bg-red-500 transition-colors duration-200 flex items-center space-x-1"
-                        aria-label="Iniciar sesión"
-                    >
-                        <LogOut className="w-4 h-4" />
-                        <span>Logout</span>
-                    </button>
+                    <div className="flex">
+                        <button
+                            onClick={logout}
+                            className="btn btn-ghost btn-sm text-white hover:bg-red-500 transition-colors duration-200 flex items-center space-x-1"
+                            aria-label="Iniciar sesión"
+                        >
+                            <LogOut className="w-4 h-4" />
+                            <span>Logout</span>
+                        </button>
+                        <ThemeController />
+                    </div>
                 )}
                 <button
                     onClick={() => navigate("/ayuda")}

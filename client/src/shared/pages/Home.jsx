@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlaneTakeoff, PlaneLanding, Calendar, UserPlus } from "lucide-react";
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import DestionationCard from "../../modules/destinations/components/DestionationCard";
 import { useGetData } from "../hooks/useApi";
 
@@ -10,8 +13,8 @@ export default function Home() {
     const [formData, setFormData] = useState({
         origin: "",
         destination: "",
-        departureDate: "",
-        returnDate: "",
+        departureDate: null,
+        returnDate: null,
         passengers: "1"
     });
 
@@ -19,7 +22,26 @@ export default function Home() {
 
     useEffect(()=> {
         console.log(airports);
-    }, []);
+    }, [airports]);
+
+    const airportOptions = airports?.data?.map((airport) => ({
+        value: airport.code,
+        label: `${airport.city} (${airport.code})`
+    })) || [];
+
+    const originOptions = airportOptions;
+
+    const destinationOptions = airportOptions.filter(option => option.value !== formData.origin);
+
+    const incrementPassengers = () => {
+        const num = parseInt(formData.passengers);
+        if (num < 5) setFormData({ ...formData, passengers: (num + 1).toString() });
+    };
+
+    const decrementPassengers = () => {
+        const num = parseInt(formData.passengers);
+        if (num > 1) setFormData({ ...formData, passengers: (num - 1).toString() });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +50,7 @@ export default function Home() {
         const params = new URLSearchParams();
         if (formData.origin) params.append('departure_airport', formData.origin);
         if (formData.destination) params.append('arrival_airport', formData.destination);
-        if (formData.departureDate) params.append('date', formData.departureDate);
+        if (formData.departureDate) params.append('date', formData.departureDate.toISOString().split('T')[0]);
         if (formData.passengers) params.append('passengers', formData.passengers);
 
         // Navigate to available flights page with filters
@@ -129,46 +151,44 @@ export default function Home() {
                                 <div className="flex items-center gap-3 border border-gray-200 rounded-lg px-3 h-14">
                                     <div className="flex-1 flex items-center gap-2">
                                         <PlaneTakeoff className="h-5 w-5 text-purple-600" />
-                                        <select
-                                            className="select select-ghost w-full"
-                                            value={formData.origin}
-                                            onChange={(e) => setFormData({...formData, origin: e.target.value})}
-                                        >
-                                            <option value="" disabled>
-                                                Origen
-                                            </option>
-                                            {loadingAirports ? (
-                                                <option disabled>Cargando...</option>
-                                            ) : (
-                                                airports?.data?.map((airport) => (
-                                                    <option key={airport.id} value={airport.code}>
-                                                        {airport.city} ({airport.code})
-                                                    </option>
-                                                ))
-                                            )}
-                                        </select>
+                                        <Select
+                                            options={originOptions}
+                                            value={originOptions.find(option => option.value === formData.origin) || null}
+                                            onChange={(selected) => setFormData({ ...formData, origin: selected?.value || "" })}
+                                            placeholder="Origen"
+                                            isLoading={loadingAirports}
+                                            className="w-full"
+                                            classNamePrefix="react-select"
+                                            styles={{
+                                                control: (provided) => ({
+                                                    ...provided,
+                                                    border: 'none',
+                                                    boxShadow: 'none',
+                                                    backgroundColor: 'transparent',
+                                                }),
+                                            }}
+                                        />
                                     </div>
                                     <div className="h-8 w-px bg-gray-300" />
                                     <div className="flex-1 flex items-center gap-2">
                                         <PlaneLanding className="h-5 w-5 text-purple-600" />
-                                        <select
-                                            className="select select-ghost w-full"
-                                            value={formData.destination}
-                                            onChange={(e) => setFormData({...formData, destination: e.target.value})}
-                                        >
-                                            <option value="" disabled>
-                                                Destino
-                                            </option>
-                                            {loadingAirports ? (
-                                                <option disabled>Cargando...</option>
-                                            ) : (
-                                                airports?.data?.map((airport) => (
-                                                    <option key={airport.id} value={airport.code}>
-                                                        {airport.city} ({airport.code})
-                                                    </option>
-                                                ))
-                                            )}
-                                        </select>
+                                        <Select
+                                            options={destinationOptions}
+                                            value={destinationOptions.find(option => option.value === formData.destination) || null}
+                                            onChange={(selected) => setFormData({ ...formData, destination: selected?.value || "" })}
+                                            placeholder="Destino"
+                                            isLoading={loadingAirports}
+                                            className="w-full"
+                                            classNamePrefix="react-select"
+                                            styles={{
+                                                control: (provided) => ({
+                                                    ...provided,
+                                                    border: 'none',
+                                                    boxShadow: 'none',
+                                                    backgroundColor: 'transparent',
+                                                }),
+                                            }}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -185,11 +205,14 @@ export default function Home() {
                                     <div className="flex-1 flex items-center gap-2">
                                         <div className="text-xs text-gray-500">Ida</div>
                                         <Calendar className="h-5 w-5 text-purple-600" />
-                                        <input
-                                            type="date"
+                                        <DatePicker
+                                            selected={formData.departureDate}
+                                            onChange={(date) => setFormData({ ...formData, departureDate: date })}
+                                            dateFormat="yyyy-MM-dd"
                                             className="input input-ghost w-full"
-                                            value={formData.departureDate}
-                                            onChange={(e) => setFormData({...formData, departureDate: e.target.value})}
+                                            placeholderText="Seleccionar fecha"
+                                            minDate={new Date()}
+                                            maxDate={new Date(new Date().setMonth(new Date().getMonth() + 2))}
                                         />
                                     </div>
                                     {trip === "roundtrip" && (
@@ -200,11 +223,14 @@ export default function Home() {
                                                     Vuelta
                                                 </div>
                                                 <Calendar className="h-5 w-5 text-purple-600" />
-                                                <input
-                                                    type="date"
+                                                <DatePicker
+                                                    selected={formData.returnDate}
+                                                    onChange={(date) => setFormData({ ...formData, returnDate: date })}
+                                                    dateFormat="yyyy-MM-dd"
                                                     className="input input-ghost w-full"
-                                                    value={formData.returnDate}
-                                                    onChange={(e) => setFormData({...formData, returnDate: e.target.value})}
+                                                    placeholderText="Seleccionar fecha"
+                                                    minDate={formData.departureDate || new Date()}
+                                                    maxDate={new Date(new Date().setMonth(new Date().getMonth() + 2))}
                                                 />
                                             </div>
                                         </>
@@ -216,17 +242,11 @@ export default function Home() {
                             <div className="md:col-span-2 lg:col-span-2 flex items-center gap-3">
                                 <div className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 h-14 w-full">
                                     <UserPlus className="h-5 w-5 text-purple-600" />
-                                    <select
-                                        className="select select-ghost w-full"
-                                        value={formData.passengers}
-                                        onChange={(e) => setFormData({...formData, passengers: e.target.value})}
-                                    >
-                                        <option value="1">1 pasajero</option>
-                                        <option value="2">2 pasajeros</option>
-                                        <option value="3">3 pasajeros</option>
-                                        <option value="4">4 pasajeros</option>
-                                        <option value="5">5 pasajeros</option>
-                                    </select>
+                                    <div className="flex items-center justify-between w-full">
+                                        <button type="button" onClick={decrementPassengers} className="btn btn-ghost btn-sm text-purple-600">-</button>
+                                        <span className="text-lg font-semibold">{formData.passengers}</span>
+                                        <button type="button" onClick={incrementPassengers} className="btn btn-ghost btn-sm text-purple-600">+</button>
+                                    </div>
                                 </div>
 
                                 <div className="w-12 h-12">
